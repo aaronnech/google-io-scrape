@@ -13,7 +13,7 @@ from bs4 import BeautifulSoup
 
 BASE_URL = 'http://developers.google.com'
 AGE = 2
-USED_UP = {
+IGNORE = {
 	"goo.gl/ZV63Cr",
 	"goo.gl/1nToQ4",
 	"goo.gl/q7wKp8",
@@ -235,8 +235,8 @@ def main():
 
             goo_links = re.findall('goo.gl\/[a-zA-Z0-9]{6}', text)
             for goo_link in goo_links:
-		if goo_link not in USED_UP:
-                	webbrowser.open('http://' + goo_link, new=2)
+				if goo_link not in IGNORE:
+		                	webbrowser.open('http://' + goo_link, new=2)
 
             if ('last-modified' not in response.headers.dict
                     or modified(response.headers.dict['last-modified'], AGE)):

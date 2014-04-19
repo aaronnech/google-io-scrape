@@ -6,11 +6,13 @@ This is a image web scraper written in python.
 import os
 import argparse
 import urllib2
+import re
 import datetime
+import webbrowser
 from bs4 import BeautifulSoup
 
-BASE_URL = 'http://developers.google.com/'
-AGE = 30
+BASE_URL = 'http://developers.google.com'
+AGE = 2
 
 
 def modified(date_modified, allowed_margin):
@@ -79,6 +81,7 @@ def process_image_tags(soup):
         except:
             continue
 
+
 def process_a_tags(soup, links, visited):
     """
     Processes all of the a tags (links) on a page.
@@ -122,7 +125,13 @@ def main():
         link = links.pop()
         try:
             response = urllib2.urlopen(BASE_URL + link)
-            soup = BeautifulSoup(response.read())
+            text = response.read()
+            soup = BeautifulSoup(text)
+
+            goo_links = re.findall('goo.gl\/[a-zA-Z0-9]{6}', text)
+            for goo_link in goo_links:
+                webbrowser.open('http://' + goo_link, new=2)
+
             if ('last-modified' not in response.headers.dict
                     or modified(response.headers.dict['last-modified'], AGE)):
                 # print "Visited: " + str(len(visited)) + " pages"

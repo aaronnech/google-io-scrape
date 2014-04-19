@@ -9,6 +9,8 @@ Edit scrape.py BASE_URL to be the base url of the website you wish to crawl. Als
 
 start.txt: Contains all of the starting relative points on the website
 
-Run with: cat start.txt | parallel --gnu ./scrape.py {}
+Run with: python scrape.py [start_relative_link]
+
+(Parallel) Run with: cat start.txt | parallel --gnu ./scrape.py {}
 
 Stop with: pkill -9 Python
